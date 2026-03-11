@@ -63,4 +63,8 @@ public class HelloWorldModel {
         return message;
     }
 
+    public String getUppercaseMessage() {
+        return Optional.ofNullable(message).map(String::toUpperCase).orElse(null);
+    }
+
 }

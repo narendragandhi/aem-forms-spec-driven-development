@@ -1,0 +1,38 @@
+# BEAD Issue: TDD-ify HelloWorld Component
+# Agent: Core Java Developer
+# Parent Task: hf1a2b3c (Full Repo TDD Alignment)
+
+id: tdd-hw-001
+type: implementation
+title: "Add getUppercaseMessage to HelloWorldModel (TDD)"
+status: pending
+priority: medium
+created: "2026-03-10T14:00:00Z"
+updated: "2026-03-10T14:00:00Z"
+agent: core-java-developer
+
+# Traceability
+traces_to:
+  user_story: "US-TDD-001"
+  acceptance_criteria:
+    - "New method getUppercaseMessage returns the message in all caps"
+    - "Follows TDD Red-Green-Refactor cycle"
+
+# Dependencies
+depends_on: []
+status: completed
+...
+# Acceptance Criteria
+- [x] Unit test created for getUppercaseMessage (RED)
+- [x] Method implemented in HelloWorldModel (GREEN)
+- [x] All tests passing
+
+# Technical Details
+### Java Package
+- `com.example.forms.core.models`
+### Files
+- `core/src/test/java/com/example/forms/core/models/HelloWorldModelTest.java`
+- `core/src/main/java/com/example/forms/core/models/HelloWorldModel.java`
+
+## Execution Log
+- 2026-03-10: Task created to demonstrate TDD alignment on existing core components.

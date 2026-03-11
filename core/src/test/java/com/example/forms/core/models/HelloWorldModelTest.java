@@ -26,6 +26,7 @@ import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 import com.example.forms.core.testcontext.AppAemContext;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -61,6 +62,14 @@ class HelloWorldModelTest {
         assertNotNull(msg);
         assertTrue(StringUtils.contains(msg, resource.getResourceType()));
         assertTrue(StringUtils.contains(msg, page.getPath()));
+    }
+
+    @Test
+    void testGetUppercaseMessage() throws Exception {
+        String msg = hello.getMessage();
+        String upperMsg = hello.getUppercaseMessage();
+        assertNotNull(upperMsg);
+        assertEquals(msg.toUpperCase(), upperMsg);
     }
 
 }

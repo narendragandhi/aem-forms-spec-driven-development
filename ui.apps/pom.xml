@@ -121,6 +121,13 @@
             <type>zip</type>
         </dependency>
 
+        <dependency>
+            <groupId>com.example.forms</groupId>
+            <artifactId>aem-forms-bmad-showcase.ui.frontend.react.forms.af</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+
 
         <!-- SPA Project Core (includes hierarchy page) -->
         <dependency>

@@ -1,0 +1,39 @@
+# BEAD Issue: TDD Test Suite for CustomAddressField
+# Agent: Test Writer
+# Parent Task: hf1a2b3c (Headless Epic)
+
+id: hf-test-001
+type: test
+title: "Define TDD Unit Tests for CustomAddressField"
+status: pending
+priority: high
+created: "2026-03-10T13:00:00Z"
+updated: "2026-03-10T13:00:00Z"
+agent: test-writer
+
+# Traceability
+traces_to:
+  user_story: "US-HL-001"
+  acceptance_criteria:
+    - "Component renders label and placeholder"
+    - "Component handles user input (state change)"
+    - "Component respects visibility and enablement flags"
+
+# Dependencies
+depends_on: []
+blocks: 
+  - hf1a2b3c # Blocks final Epic completion
+
+# Acceptance Criteria
+- [ ] Tests cover initial render
+- [ ] Tests cover input change events
+- [ ] Tests cover visibility logic
+- [ ] Tests cover disabled state
+
+# Technical Details
+### Test Environment
+- Framework: Jest + React Testing Library
+- Path: `ui.frontend.react.forms.af/src/main/webpack/components/CustomAddressField.test.js`
+
+## Execution Log
+- 2026-03-10: Task created for TDD phase.

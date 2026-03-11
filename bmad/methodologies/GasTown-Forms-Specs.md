@@ -45,6 +45,19 @@ Each specialized AI agent within the Gas Town ecosystem will have well-defined i
     *   `clientlib_config_xml`: Clientlib configuration for the component (`ui.apps`).
     *   `component_docs_markdown`: Markdown documentation for the component's usage.
 
+### 2.6. AEM Forms Headless Orchestrator Agent (GasTown Extension)
+
+*   **Responsibility:** Configures the "BFF" (Backend-for-Frontend) layer and standalone React consumers for headless form delivery.
+*   **Input:**
+    *   `form_path`: JCR path to the source Adaptive Form.
+    *   `headless_mapping_spec`: Mapping between AEM components and headless React components.
+    *   `auth_context`: Security requirements for form delivery and submission.
+*   **Output:**
+    *   `bff_service_config`: OSGi configuration for `HeadlessFormService`.
+    *   `headless_app_boilerplate`: React application structure in `ui.frontend.react.forms.af`.
+    *   `submission_handler_code`: Java source for `HeadlessSubmitServlet`.
+    *   `integration_docs`: Documentation in `bmad/06-Integrations/headless-forms.md`.
+
 ### 2.3. AEM Forms Workflow Designer Agent
 
 *   **Responsibility:** Designs and implements AEM Workflows for form submission processing (e.g., approvals, external system integration).
@@ -60,18 +73,18 @@ Each specialized AI agent within the Gas Town ecosystem will have well-defined i
 
 ### 2.4. AEM Forms Test Writer Agent
 
-*   **Responsibility:** Creates automated tests for custom components, FDM integrations, and workflow steps.
+*   **Responsibility:** Creates automated tests for custom components, FDM integrations, and workflow steps. Supports a **TDD (Test-Driven Development)** workflow by defining assertions based on specifications before implementation.
+*   **TDD Workflow:**
+    1.  **Red Phase:** Agent generates tests based on `component_spec`. Tests are expected to fail initially.
+    2.  **Green Phase:** Implementation agent (Coder) writes code to pass the tests.
+    3.  **Refactor Phase:** Mayor AI triggers a review for code quality while ensuring tests remain green.
 *   **Input:**
     *   `task_id`: Unique identifier.
-    *   `component_code`: React component code to test.
-    *   `fdm_definition`: FDM definition and schema.
-    *   `workflow_model`: Workflow model definition.
-    *   `business_requirements`: Original requirements for the feature.
+    *   `component_spec`: UI/UX and functional requirements.
+    *   `component_code` (Optional in TDD Start): React component code to test.
 *   **Output:**
     *   `jest_tests_js`: Jest/React Testing Library tests for React components (`ui.frontend.react.forms.af`).
-    *   `cypress_tests_js`: Cypress tests for end-to-end UI validation of forms (`ui.tests`).
-    *   `junit_tests_java`: JUnit tests for Java services and workflow processes (`core`).
-    *   `test_report_summary`: Summary of test coverage and results.
+    *   `test_report_summary`: Summary of test coverage goals (Target: 80%+).
 
 ### 2.5. AEM Forms DoR Agent
 

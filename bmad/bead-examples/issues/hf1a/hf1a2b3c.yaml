@@ -1,0 +1,109 @@
+# BEAD Issue: Headless AEM Forms Implementation
+# Agent: Mayor / Headless Orchestrator
+# Parent Task: BMAD Sprint 1 - Decentralized Delivery
+
+id: hf1a2b3c
+type: epic
+title: "Implement Headless AEM Forms Infrastructure"
+status: completed
+priority: high
+created: "2026-03-10T11:00:00Z"
+updated: "2026-03-10T12:30:00Z"
+agent: headless-orchestrator
+
+# Traceability
+traces_to:
+  user_story: "US-HL-001"
+  specification: "bmad/methodologies/GasTown-Forms-Specs.md#2.6"
+  acceptance_criteria:
+    - "Render Adaptive Forms in standalone React app"
+    - "Provide BFF orchestration service"
+    - "Handle form submissions headlessly"
+    - "Support custom component mappings"
+
+# Dependencies
+dependencies: []
+blocks: []
+
+# Sub-tasks
+children:
+  - id: hf-fe-001
+    title: "Setup ui.frontend.react.forms.af module"
+    status: completed
+  - id: hf-be-001
+    title: "Implement HeadlessSubmitServlet"
+    status: completed
+  - id: hf-test-001
+    title: "Define TDD Unit Tests for CustomAddressField"
+    status: completed
+  - id: hf-docs-001
+    title: "Document Headless Architecture"
+    status: completed
+
+# Context (Persistent Memory)
+context:
+  design_decisions:
+    - decision: "Use @aemforms/af-react-renderer for headless delivery"
+      reason: "Official Adobe SDK for AEM Forms as a Cloud Service compatibility"
+      date: "2026-03-10"
+
+    - decision: "Implement HeadlessSubmitServlet as a mock backend"
+      reason: "Provides immediate 'first-class' experience for testing form flow"
+      date: "2026-03-10"
+
+    - decision: "Default to financial-application example"
+      reason: "Demonstrates complex wizard and dynamic table capabilities in headless mode"
+      date: "2026-03-10"
+
+  requirements_understood:
+    - "Need for standalone React app in ui.frontend.react.forms.af"
+    - "BFF service needed to bridge JCR models to headless consumers"
+    - "Custom components like Address Lookup must be mapped"
+
+  relevant_files:
+    - path: "bmad/methodologies/GasTown-Forms-Specs.md"
+      section: "AEM Forms Headless Orchestrator Agent"
+      summary: "Defines the interface for headless delivery agents"
+
+# Execution Log
+execution_log:
+  - timestamp: "2026-03-10T11:15:00Z"
+    action: "Module Initialization"
+    details: "Created pom.xml and package.json for ui.frontend.react.forms.af"
+
+  - timestamp: "2026-03-10T11:45:00Z"
+    action: "React App Development"
+    details: "Implemented App.js and index.js with Headless SDK"
+    artifacts:
+      - "ui.frontend.react.forms.af/src/App.js"
+
+  - timestamp: "2026-03-10T12:00:00Z"
+    action: "Backend Implementation"
+    details: "Created HeadlessSubmitServlet.java"
+    artifacts:
+      - "core/src/main/java/com/example/forms/core/services/HeadlessSubmitServlet.java"
+
+  - timestamp: "2026-03-10T12:30:00Z"
+    action: "Integration & Documentation"
+    details: "Updated parent POMs and added headless-forms.md"
+
+# Artifacts Produced
+artifacts:
+  - type: "maven-module"
+    path: "ui.frontend.react.forms.af"
+    status: "committed"
+
+  - type: "java-servlet"
+    path: "core/src/main/java/com/example/forms/core/services/HeadlessSubmitServlet.java"
+    status: "committed"
+
+  - type: "documentation"
+    path: "bmad/06-Integrations/headless-forms.md"
+    status: "committed"
+
+# Notes for Next Agent
+handoff_notes: |
+  Infrastructure is ready. To add more custom components:
+  1. Create component in src/main/webpack/components
+  2. Map it in App.js 'customMappings'
+  3. Ensure AEM resourceType matches the mapping key.
