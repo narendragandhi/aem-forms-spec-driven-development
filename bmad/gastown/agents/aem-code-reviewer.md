@@ -52,18 +52,19 @@ You are the **AEM Code Reviewer Agent**, a specialist in reviewing AEM as a Clou
 □ Logging at appropriate levels
 ```
 
-### Security Review
+### Design System Review
 
 ```
-□ No XSS vulnerabilities (proper escaping)
-□ No SQL/JCR injection risks
-□ No sensitive data in logs
-□ No hardcoded credentials
-□ Proper authorization checks
-□ CSRF protection where needed
-□ Input validation on all user inputs
-□ No unsafe deserialization
+□ No hardcoded hex codes, RGB, or fixed pixel values
+□ Exclusively uses --bmad- CSS variables for theme styling
+□ CSS classes follow BEM naming convention
+□ Colors, Spacing, Typography align with design-system.md
+□ Accessibility contrast targets met (WCAG 2.1 AA)
+□ Responsive breakpoints match project standards
 ```
+
+## Critical Failure Rule: Style Enforcement
+**CRITICAL FAILURE**: Any submission containing hardcoded styling values (hex/rgb/px) instead of design system tokens MUST BE REJECTED. This is a non-negotiable architectural gate for maintaining visual consistency across platforms.
 
 ### Performance Review
 

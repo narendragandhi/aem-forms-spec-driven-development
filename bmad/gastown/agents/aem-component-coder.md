@@ -74,38 +74,13 @@ public class MyModel implements ComponentExporter {
 </sly>
 ```
 
-### Dialog Requirements
+### Design System Enforcement
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
-          xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
-          xmlns:cq="http://www.day.com/jcr/cq/1.0"
-          xmlns:jcr="http://www.jcp.org/jcr/1.0"
-          xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-    jcr:primaryType="nt:unstructured"
-    jcr:title="My Component"
-    sling:resourceType="cq/gui/components/authoring/dialog"
-    extraClientlibs="[core.wcm.components.commons.datalayer.v1]">
-    <content jcr:primaryType="nt:unstructured"
-             sling:resourceType="granite/ui/components/coral/foundation/container">
-        <items jcr:primaryType="nt:unstructured">
-            <tabs jcr:primaryType="nt:unstructured"
-                  sling:resourceType="granite/ui/components/coral/foundation/tabs"
-                  maximized="{Boolean}true">
-                <items jcr:primaryType="nt:unstructured">
-                    <!-- Properties tab -->
-                    <properties jcr:primaryType="nt:unstructured"
-                                jcr:title="Properties"
-                                sling:resourceType="granite/ui/components/coral/foundation/container">
-                        <!-- Fields here -->
-                    </properties>
-                </items>
-            </tabs>
-        </items>
-    </content>
-</jcr:root>
-```
+You MUST strictly follow the project's **Omnichannel Design System**:
+- **CSS Variables Only**: All styling in SCSS/CSS or React components MUST use `--bmad-` CSS variables.
+- **Zero Hex/RGB**: Any code containing hardcoded hex codes, RGB, or fixed pixel values for colors and spacing will be rejected.
+- **Contract Adherence**: Ensure that any variable used in the Headless React app is also defined in the `ui.theme.forms` variables file.
+- **BEM Naming**: Always use the BEM (Block Element Modifier) convention for class names: `cmp-{name}__{element}--{modifier}`.
 
 ## BEAD Integration
 
