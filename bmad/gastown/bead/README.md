@@ -1,6 +1,10 @@
 # BEAD - Backlog for Execution by AI Developers
 
+> **IMPORTANT**: This project uses the Beads (`bd`) CLI for task tracking. See [BEADS-SETUP.md](./BEADS-SETUP.md) for installation and usage guide.
+
 BEAD is a git-backed issue tracking system designed specifically for AI agent coordination within the GasTown framework. It provides persistent memory and context for individual AI agents across sessions.
+
+> **Beads v1.0 Note**: Issue IDs now use hash-based format (e.g. `aem-forms-bmad-showcase-abc1`). The `bd` CLI manages the Dolt-powered database. See [ID-FORMAT.md](./ID-FORMAT.md) for migration from legacy markdown IDs.
 
 ## Purpose
 

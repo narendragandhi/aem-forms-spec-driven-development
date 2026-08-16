@@ -1,85 +1,164 @@
 # AEM Forms BMAD Showcase
 
-This project showcases the **BMAD (Breakthrough Method for Agile Development)** for an AEM Forms implementation on Adobe Experience Manager (AEM) as a Cloud Service.
+An open reference implementation for demonstrating Adobe Experience Manager (AEM) Forms as a connected customer journey: authored form definition, adaptive rules, data integration, workflow, signature, and Document of Record (DoR).
 
-It is generated from the latest AEM Archetype and combines the structured, AI-driven BMAD methodology with a modern AEM Forms technology stack.
+The project also demonstrates BMAD (Breakthrough Method for Agile Development) with small, traceable work items managed as beads. It is intended for demos, architecture workshops, and experimentation—not as a production-ready healthcare or financial-services application.
 
-## Overview
+## What makes the showcase useful
 
-The BMAD method is an AI-driven agile development framework that provides a structured, agent-based approach to software development. This project demonstrates how to apply this methodology specifically to AEM Forms projects, guiding teams from initial business discovery through the deployment of complex forms and workflows.
+- A polished React shell around an authored Adaptive Form.
+- Tailorable journeys for financial services, claims, onboarding, and healthcare.
+- Seeded demo mode for deterministic presentations without AEM.
+- Native AEM Forms content under `fd/af/components/...`.
+- Headless metadata, prefill, submission, workflow, signature, and DoR seams.
+- Deterministic policy evaluation with an explicit human-review gate in seeded mode.
+- Architecture visibility for the audience: Author → Publish → Headless Form → FDM + Rules → Workflow → Sign + DoR.
+- Bead-based planning, implementation, testing, review, and environment evidence.
 
-This project has been adapted from the original `aem-bmad-showcase` and tailored for AEM Forms. The core BMAD documentation has been migrated and will be updated to reflect Forms-specific use cases.
+## Current verification status
 
-## Technology Stack
+| Capability | Status | Evidence |
+|---|---|---|
+| React unit tests | Passing | 3 suites, 11 tests passed in the latest run |
+| Production frontend build | Passing | `npm run build` |
+| Seeded demo browser journey | Passing | Playwright CLI evidence for claims scenario |
+| Seeded evaluation + HITL journey | Passing | 13 frontend tests; approve/reject browser spec added |
+| Native form content on Author | Passing | `jcr:content.infinity.json` contains native Forms tree |
+| Author `.model.json` endpoint | Passing | HTTP 200 on the financial form |
+| Author HTML render | Passing | HTTP 200 through Forms runtime |
+| Publish verification | Blocked | Local Publish at `localhost:4503` unavailable |
+| Live Adobe Sign callback | Not verified | Requires configured integration |
+| Live DoR generation/download | Not verified | Requires configured workflow/output integration |
+| Browser accessibility audit | Pending | Seeded form has accessibility tests; full audit remains open |
 
-| Layer | Technology |
+See [the demo runbook](docs/DEMO-RUNBOOK.md) for the exact evidence and limitations.
+
+## Quick start
+
+### Seeded demo mode
+
+Seeded mode is the fastest way to present the experience. It uses synthetic data and does not prove a live AEM integration.
+
+```text
+/?demo=true&useCase=financial
+/?demo=true&useCase=claims
+/?demo=true&useCase=onboarding
+/?demo=true&useCase=healthcare
+```
+
+Run the frontend from `ui.frontend.react.forms.af`:
+
+```bash
+npm ci
+npm start
+```
+
+Then open `http://localhost:3000/?demo=true&useCase=healthcare`.
+
+### Live AEM mode
+
+Live mode reads the authored form model and calls the configured orchestration endpoints:
+
+```text
+http://localhost:3000/?useCase=financial
+```
+
+The default form path is:
+
+```text
+/content/forms/af/aem-forms-bmad-showcase/financial-application
+```
+
+Use `formPath` to point the shell at another authored form:
+
+```text
+/?useCase=claims&formPath=/content/forms/af/<your-form>
+```
+
+The frontend configuration is in [`showcaseConfig.js`](ui.frontend.react.forms.af/src/showcaseConfig.js); seeded data is in [`demoScenarios.js`](ui.frontend.react.forms.af/src/demoScenarios.js).
+
+## AEM endpoints
+
+| Endpoint | Purpose |
 |---|---|
-| CMS / Forms | Adobe Experience Manager as a Cloud Service |
-| Backend | Java 21+, OSGi, Sling Models |
-| Frontend (Forms) | **React**, AEM Forms Component Library |
-| Form Submission Workflows | AEM Workflows with custom steps |
-| CI/CD | Adobe Cloud Manager |
-| CDN | Adobe Managed CDN (Fastly) |
+| `/bin/bmad/headless-form-service?formPath=...` | Returns form metadata and orchestration URLs |
+| `/content/forms/af/.../financial-application.model.json` | Native AEM Forms model endpoint |
+| `/content/forms/af/.../financial-application.html` | Author-rendered form page |
+| `/bin/bmad/mock-finance-data` | Synthetic prefill data for local demonstrations |
+| `/bin/bmad/headless-submit` | Showcase submission seam |
 
-## Modules
+The live endpoints require an AEM Forms runtime. Do not use the mock data endpoint with real personal or patient information.
 
-This project was generated with AEM Archetype 56 and includes Forms-specific modules:
+## Build and test
 
-* **core**: Java bundle containing OSGi services, workflow steps, and Sling Models for form processing.
-* **ui.apps**: Contains traditional AEM components, dialogs, and crucially, the compiled output of the forms frontend.
-* **ui.config**: Contains runmode-specific OSGi configurations.
-* **ui.content**: Contains sample content, including Adaptive Form templates, themes, and example forms.
-* **ui.frontend.react**: A dedicated front-end build mechanism for React.
-* **ui.frontend.react.forms.af**: **The primary location for developing custom React components for Adaptive Forms.**
-* **all**: A single content package that embeds all compiled modules for deployment to AEM as a Cloud Service.
-* **dispatcher**: Contains the dispatcher configurations.
+Prerequisites: Java 21+, Maven 3.8.6+, Node/npm for the frontend, and an AEM Forms Author when running live mode.
 
-## How to Build
+```bash
+# Frontend unit tests
+cd ui.frontend.react.forms.af
+CI=true npm test -- --watchAll=false
 
-To build all the modules, run the following command in the project root directory:
+# Frontend production build
+npm run build
 
-    mvn clean install
+# Maven build
+cd ../..
+mvn -B clean install
+```
 
-To build and deploy the complete package to a local AEM instance, run:
+For a focused content refresh after changing authored form XML:
 
-    mvn clean install -PautoInstallSinglePackage
+```bash
+mvn -B -pl ui.content install
+mvn -B -pl all package
+```
 
-## Adapting the BMAD Methodology for AEM Forms
+See [TESTING.md](docs/TESTING.md) for browser, accessibility, and AEM verification guidance.
 
-The included `bmad/` directory contains the full methodology. When applying it to a Forms project, the focus of each phase shifts:
+## Repository map
 
-- **Phase 01: Business Discovery**: User stories will focus on form-filling journeys, data submission requirements, and approval processes.
-- **Phase 02: Model Definition**: This phase will define **Form Data Models (FDM)**, JSON schemas for forms, and create Adaptive Form templates and themes.
-- **Phase 03: Architecture Design**: Component design will focus on **custom Adaptive Form fields** (e.g., an address lookup field) rather than website components.
-- **Phase 04: Development Sprint**: Development will center on creating custom React form components in the `ui.frontend.react.forms.af` module and building workflows to orchestrate form submissions.
+| Path | Responsibility |
+|---|---|
+| `core` | OSGi services, Sling models, and workflow-facing Java code |
+| `ui.apps` | AEM components and client-library definitions |
+| `ui.content` | Forms, templates, themes, FDM examples, and sample content |
+| `ui.frontend.react.forms.af` | React Forms renderer, showcase shell, seeded scenarios, and browser specs |
+| `ui.config` | OSGi and environment configuration |
+| `all` | Deployable container package |
+| `dispatcher` | Dispatcher configuration |
+| `bmad` | Methodology, architecture, operations, tests, and bead tracking |
+| `docs` | Maintainer-facing showcase and verification documentation |
 
-Please refer to the documents in the `bmad/` directory for a deeper understanding of the methodology.
+## BMAD and beads
 
-### **Advanced Showcase Examples (BMAD v6 Expansion)**
+Work is intentionally broken into small beads that can be independently implemented, tested, reviewed, and evidenced. Start with:
 
-The project now includes advanced examples demonstrating complex form logic and dynamic data orchestration:
+- [Beads setup](bmad/gastown/bead/BEADS-SETUP.md)
+- [Showcase convoy](bmad/gastown/bead/SHOWCASE-001-convoy.yaml)
+- [GasTown overview](bmad/gastown/README.md)
 
-1.  **Complex Adaptive Form (Financial Services Application):**
-    *   **Location:** `/content/forms/af/aem-forms-bmad-showcase/financial-application`
-    *   **Features:** Multi-step **Wizard Layout**, Lead Notations, and a **Dynamic Table** for Employment History (Add/Delete rows).
-    *   **Compliance:** Built with Core Components v2 for WCAG 2.2 support.
+The Markdown bead files are the portable fallback when the `bd` database is unavailable.
 
-2.  **Dynamic Interactive Communication (Annual Statement):**
-    *   **Location:** `/content/forms/ic/aem-forms-bmad-showcase/annual-statement`
-    *   **Features:** Dynamic **Transaction Table** that automatically expands based on JSON data payload. Demonstrates `bindRef` patterns for document fragments.
-3.  **Mock Finance Data Service:**
-    *   **Endpoint:** `/bin/bmad/mock-finance-data`
-    *   **Usage:** Serves as a simulated backend for Form Data Models (FDM). Use this to test dynamic table population in AF and IC.
+## Architecture and design
 
-### **Headless Forms Integration (BMAD v6)**
+- [Architecture overview](docs/ARCHITECTURE.md)
+- [Demo runbook](docs/DEMO-RUNBOOK.md)
+- [Testing and accessibility](docs/TESTING.md)
+- [Evaluation and HITL](docs/EVALUATION-HITL.md)
+- [Reusable project playbook](docs/PROJECT-PLAYBOOK.md)
+- [Product presentation runbook](docs/PRESENTATION-RUNBOOK.md)
+- [Contract matrix](docs/CONTRACT-MATRIX.md)
+- [BMAD integration guide](bmad/06-Integrations/headless-forms.md)
+- [Forms architecture source](bmad/03-Architecture-Design/system-architecture.md)
 
-The showcase now supports **Headless AEM Forms** orchestration, enabling forms to be authored in AEM and rendered in any external React/SPA or AEM Edge Delivery Services (EDS) environment.
+## Contributing
 
-*   **Headless Service Endpoint:** `/bin/bmad/headless-form-service?formPath=[path-to-form]`
-*   **Key Dependencies:** Uses `@adobe/aem-forms-af-react-components` for client-side rendering.
-*   **Workflow:**
-    1.  Fetch the headless metadata wrapper from the service endpoint.
-    2.  Use the `endpoint` URL (`.model.json`) to load the form structure into the React Headless SDK.
-    3.  Submit data back to `/bin/bmad/headless-submit` for centralized BMAD orchestration.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a change. All contributions must preserve the distinction between seeded demo behavior and verified live AEM behavior.
 
-## Build & Deployment
+## Security and privacy
+
+This repository contains synthetic data only. Never commit AEM credentials, Adobe Sign secrets, patient data, financial records, or production configuration. Report vulnerabilities using [SECURITY.md](SECURITY.md).
+
+## License
+
+Licensed under the Apache License 2.0. See [LICENSE](LICENSE).

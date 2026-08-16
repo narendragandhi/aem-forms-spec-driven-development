@@ -1,0 +1,137 @@
+name: "AEM Forms Transformational Showcase"
+workflow_id: SHOWCASE-001
+description: "Deliver a traceable end-to-end AEM Forms showcase from customer intent through headless form submission, workflow, signature, and Document of Record."
+status: in_progress
+created: 2026-08-12T22:00:00Z
+beads:
+  - id: SHOWCASE-001-plan-001
+    role: planning
+    status: completed
+  - id: SHOWCASE-001-impl-001
+    role: implementation
+    status: completed
+    depends_on: [SHOWCASE-001-plan-001]
+  - id: SHOWCASE-001-int-001
+    role: integration
+    status: pending
+    depends_on: [SHOWCASE-001-plan-001]
+  - id: SHOWCASE-001-impl-002
+    role: use-case-configuration
+    status: completed
+    depends_on: [SHOWCASE-001-impl-001]
+  - id: SHOWCASE-001-test-001
+    role: frontend-testing
+    status: completed
+    depends_on: [SHOWCASE-001-impl-001]
+  - id: SHOWCASE-001-test-002
+    role: browser-journey-testing
+    status: pending
+    depends_on: [SHOWCASE-001-int-001]
+  - id: SHOWCASE-001-test-003
+    role: configuration-testing
+    status: completed
+    depends_on: [SHOWCASE-001-impl-002]
+  - id: SHOWCASE-001-impl-003
+    role: seeded-demo-and-architecture
+    status: completed
+    depends_on: [SHOWCASE-001-impl-002]
+  - id: SHOWCASE-001-test-004
+    role: browser-and-accessibility-testing
+    status: completed
+    depends_on: [SHOWCASE-001-impl-003]
+  - id: SHOWCASE-001-live-aem-001
+    role: author-to-publish-validation
+    status: blocked
+    depends_on: [SHOWCASE-001-int-001, SHOWCASE-001-test-002]
+  - id: SHOWCASE-001-impl-004
+    role: healthcare-use-case
+    status: completed
+    depends_on: [SHOWCASE-001-impl-003]
+  - id: SHOWCASE-001-test-005
+    role: healthcare-use-case-testing
+    status: completed
+    depends_on: [SHOWCASE-001-impl-004]
+  - id: SHOWCASE-001-impl-005
+    role: evaluation-contract
+    status: completed
+    depends_on: [SHOWCASE-001-impl-003]
+  - id: SHOWCASE-001-impl-006
+    role: seeded-hitl-review
+    status: in_progress
+    depends_on: [SHOWCASE-001-impl-005]
+  - id: SHOWCASE-001-int-002
+    role: live-evaluation-hitl-contract
+    status: pending
+    depends_on: [SHOWCASE-001-impl-005, SHOWCASE-001-impl-006]
+  - id: SHOWCASE-001-test-006
+    role: evaluation-hitl-testing
+    status: in_progress
+    depends_on: [SHOWCASE-001-impl-005, SHOWCASE-001-impl-006]
+  - id: SHOWCASE-001-docs-002
+    role: evaluation-hitl-documentation
+    status: pending
+    depends_on: [SHOWCASE-001-int-002, SHOWCASE-001-test-006]
+  - id: SHOWCASE-001-soc-001
+    role: soc2-system-boundary-and-controls
+    status: pending
+    depends_on: [SHOWCASE-001-docs-001]
+  - id: SHOWCASE-001-soc-002
+    role: soc2-access-review
+    status: pending
+    depends_on: [SHOWCASE-001-soc-001]
+  - id: SHOWCASE-001-soc-003
+    role: soc2-change-management
+    status: pending
+    depends_on: [SHOWCASE-001-soc-001]
+  - id: SHOWCASE-001-soc-004
+    role: soc2-incident-and-resilience-exercise
+    status: pending
+    depends_on: [SHOWCASE-001-soc-001]
+  - id: SHOWCASE-001-soc-005
+    role: soc2-vendor-risk
+    status: pending
+    depends_on: [SHOWCASE-001-soc-001]
+  - id: SHOWCASE-001-soc-006
+    role: soc2-evidence-collection
+    status: pending
+    depends_on: [SHOWCASE-001-soc-001, SHOWCASE-001-test-006]
+  - id: SHOWCASE-001-soc-007
+    role: independent-soc2-readiness-review
+    status: pending
+    depends_on: [SHOWCASE-001-soc-001, SHOWCASE-001-soc-002, SHOWCASE-001-soc-003, SHOWCASE-001-soc-004, SHOWCASE-001-soc-005, SHOWCASE-001-soc-006]
+  - id: SHOWCASE-001-ci-001
+    role: continuous-improvement-loop
+    status: pending
+    depends_on: [SHOWCASE-001-impl-005, SHOWCASE-001-test-006]
+  - id: SHOWCASE-001-ci-002
+    role: continuous-improvement-regression-testing
+    status: pending
+    depends_on: [SHOWCASE-001-ci-001]
+  - id: SHOWCASE-001-ci-003
+    role: continuous-improvement-review-and-canary
+    status: pending
+    depends_on: [SHOWCASE-001-ci-001, SHOWCASE-001-ci-002]
+  - id: SHOWCASE-001-sync-001
+    role: archetype-showcase-contract-sync
+    status: in_progress
+    depends_on: [SHOWCASE-001-ci-001]
+  - id: SHOWCASE-001-chaos-001
+    role: residuality-chaos-experiments
+    status: pending
+    depends_on: [SHOWCASE-001-sync-001]
+  - id: SHOWCASE-001-data-001
+    role: optional-medallion-data-contract
+    status: pending
+    depends_on: [SHOWCASE-001-sync-001]
+  - id: SHOWCASE-001-migration-001
+    role: pdf-to-adaptive-forms-migration
+    status: pending
+    depends_on: [SHOWCASE-001-sync-001]
+  - id: SHOWCASE-001-review-001
+    role: review
+    status: pending
+    depends_on: [SHOWCASE-001-impl-001, SHOWCASE-001-impl-002, SHOWCASE-001-impl-003, SHOWCASE-001-impl-004, SHOWCASE-001-impl-005, SHOWCASE-001-impl-006, SHOWCASE-001-int-001, SHOWCASE-001-int-002, SHOWCASE-001-test-001, SHOWCASE-001-test-002, SHOWCASE-001-test-003, SHOWCASE-001-test-004, SHOWCASE-001-test-005, SHOWCASE-001-test-006, SHOWCASE-001-live-aem-001]
+  - id: SHOWCASE-001-docs-001
+    role: documentation
+    status: pending
+    depends_on: [SHOWCASE-001-review-001]

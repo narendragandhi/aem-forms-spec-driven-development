@@ -1,0 +1,20 @@
+foundationVersion: 1.0.0
+features:
+  evaluation: true
+  hitl: true
+  observability: true
+  resilience: false
+  formsMigration: true
+providerMode: demo
+contracts:
+  correlationHeader: X-Correlation-ID
+  beadDirectory: bmad/gastown/bead/.issues
+  healthEndpoint: /bin/bmad/observability/health
+  metricsEndpoint: /bin/bmad/observability/metrics
+  liveProviderPrerequisites:
+    - afcsEnabled
+    - afcsConfiguredOnAuthor
+    - aemPublish
+    - aemInbox
+    - adobeSign
+    - documentOfRecord

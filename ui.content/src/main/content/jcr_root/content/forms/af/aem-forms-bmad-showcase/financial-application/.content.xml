@@ -1,88 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:fd="http://www.adobe.com/aemfd/fd/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2026-03-10T10:00:00.000Z"
+        cq:deviceGroups="[mobile/groups/responsive]"
+        cq:lastModified="{Date}2026-08-14T10:00:00.000Z"
         cq:lastModifiedBy="admin"
-        cq:template="/conf/aem-forms-bmad-showcase/settings/wcm/templates/standard-application"
+        cq:template="/conf/aem-forms-bmad-showcase/settings/wcm/templates/basic-af"
         jcr:primaryType="cq:PageContent"
         jcr:title="Financial Services Application"
-        sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/page"
-        guideComponentType="fd/af/components/page">
+        sling:resourceType="fd/af/components/page2/aftemplatedpage"
+        guideComponentType="fd/af/templates">
         <guideContainer
+            fd:version="1.1"
             jcr:primaryType="nt:unstructured"
-            sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/formcontainer"
+            sling:resourceType="fd/af/components/guideContainer"
+            actionType="fd/af/components/guidesubmittype/restendpoint"
             editable="{Boolean}true"
-            guideNodeClass="guideContainerNode">
+            guideNodeClass="guideContainerNode"
+            name="guide1">
+            <layout
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="fd/af/layouts/defaultGuideLayout"
+                mobileLayout="fd/af/layouts/mobile/step"
+                toolbarPosition="Bottom"/>
             <rootPanel
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/panel"
-                name="rootPanel"
-                paneltype="simple"
-                layout="wizard">
+                jcr:title="Application"
+                sling:resourceType="fd/af/components/rootPanel"
+                dorExcludeDescription="true"
+                dorExcludeTitle="true"
+                editable="{Boolean}true"
+                guideNodeClass="rootPanelNode"
+                name="guideRootPanel"
+                panelSetType="Navigable">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="fd/af/layouts/gridFluidLayout2"
+                    nonNavigable="{Boolean}true"
+                    toolbarPosition="Bottom"/>
                 <items jcr:primaryType="nt:unstructured">
                     <personalPanel
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/panel"
-                        name="personalPanel"
                         jcr:title="Personal Details"
-                        layout="responsiveGrid">
+                        sling:resourceType="fd/af/components/panel"
+                        guideNodeClass="guidePanel"
+                        name="personalDetails">
                         <items jcr:primaryType="nt:unstructured">
                             <fullName
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/textinput"
-                                name="fullName"
-                                fieldType="text-input"
-                                label="Full Name"/>
-                            <income
+                                jcr:title="Full Name"
+                                sling:resourceType="fd/af/components/guidetextbox"
+                                guideNodeClass="guideTextBox"
+                                mandatory="true"
+                                name="fullName"/>
+                            <annualIncome
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/numberinput"
-                                name="annualIncome"
-                                fieldType="number-input"
-                                label="Annual Income"
-                                leadNotation="$"/>
+                                jcr:title="Annual Income"
+                                sling:resourceType="fd/af/components/guidenumericbox"
+                                guideNodeClass="guideNumericBox"
+                                name="annualIncome"/>
                         </items>
                     </personalPanel>
                     <employmentPanel
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/panel"
-                        name="employmentPanel"
                         jcr:title="Employment History"
-                        layout="responsiveGrid">
+                        sling:resourceType="fd/af/components/panel"
+                        guideNodeClass="guidePanel"
+                        name="employmentHistory">
                         <items jcr:primaryType="nt:unstructured">
-                            <employmentTable
+                            <company
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/table"
-                                name="employmentTable"
-                                jcr:title="Previous Employment"
-                                initialRows="{Long}1"
-                                minOccur="{Long}1"
-                                maxOccur="{Long}5">
-                                <items jcr:primaryType="nt:unstructured">
-                                    <row1
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/tablerow"
-                                        name="row1">
-                                        <items jcr:primaryType="nt:unstructured">
-                                            <company
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/textinput"
-                                                name="company"
-                                                label="Company Name"/>
-                                            <role
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/textinput"
-                                                name="role"
-                                                label="Role"/>
-                                            <years
-                                                jcr:primaryType="nt:unstructured"
-                                                sling:resourceType="aem-forms-bmad-showcase/components/adaptiveForm/numberinput"
-                                                name="years"
-                                                label="Years of Service"/>
-                                        </items>
-                                    </row1>
-                                </items>
-                            </employmentTable>
+                                jcr:title="Company Name"
+                                sling:resourceType="fd/af/components/guidetextbox"
+                                guideNodeClass="guideTextBox"
+                                name="company"/>
+                            <role
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Role"
+                                sling:resourceType="fd/af/components/guidetextbox"
+                                guideNodeClass="guideTextBox"
+                                name="role"/>
+                            <years
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Years of Service"
+                                sling:resourceType="fd/af/components/guidenumericbox"
+                                guideNodeClass="guideNumericBox"
+                                name="years"/>
                         </items>
                     </employmentPanel>
                 </items>

@@ -81,9 +81,9 @@ public class FormSubmissionService {
             // HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             //
             // if (response.statusCode() == 200) {
-            //     LOG.info("Form data successfully sent to external API for {}. Response: {}", formIdentifier, response.body());
+            //     LOG.info("event=external.submit_success form={} status={}", formIdentifier, response.statusCode());
             // } else {
-            //     LOG.warn("Failed to send form data to external API for {}. Status: {}, Response: {}", formIdentifier, response.statusCode(), response.body());
+            //     LOG.warn("event=external.submit_failure form={} status={}", formIdentifier, response.statusCode());
             //     // Depending on requirements, throw an exception to fail the workflow step
             // }
 

@@ -109,6 +109,11 @@ workflows:
       description: "Workflow for content migration tasks"
       agents: [coder, tester]
 
+    - name: production-readiness
+      file: workflows/production-readiness.yaml
+      description: "Pre-production checklist workflow"
+      agents: [coder, tester, reviewer, dispatcher, docs]
+
 # BEAD configuration
 bead:
   issues_dir: bead/.issues

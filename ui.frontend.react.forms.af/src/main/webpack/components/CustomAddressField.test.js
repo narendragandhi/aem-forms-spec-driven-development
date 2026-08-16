@@ -1,6 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+
+// Keep this unit test focused on the custom field. The real SDK wrapper pulls
+// browser-only AEM rule-engine dependencies that CRA/Jest should not load here.
+jest.mock('@aemforms/af-react-components', () => ({
+  Field: ({ render: Render, ...props }) => <Render {...props} />
+}));
+
 import CustomAddressField from './CustomAddressField';
 
 // Mock the 'Field' wrapper from the SDK if needed, 

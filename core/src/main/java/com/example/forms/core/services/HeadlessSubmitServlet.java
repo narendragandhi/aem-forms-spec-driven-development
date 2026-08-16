@@ -11,6 +11,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.propertytypes.ServiceDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.example.forms.core.observability.ObservabilityService;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -28,11 +29,16 @@ public class HeadlessSubmitServlet extends SlingAllMethodsServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(HeadlessSubmitServlet.class);
 
+    @org.osgi.service.component.annotations.Reference
+    private ObservabilityService observabilityService;
+
     @Override
     protected void doGet(final SlingHttpServletRequest req,
             final SlingHttpServletResponse resp) throws ServletException, IOException {
         
         String workflowId = req.getParameter("workflowId");
+        String correlationId = (String) req.getAttribute("bmad.correlationId");
+        observabilityService.recordStatusPoll(correlationId);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         
@@ -71,6 +77,7 @@ public class HeadlessSubmitServlet extends SlingAllMethodsServlet {
                 + "}");
                 
         } catch (Exception e) {
+            observabilityService.recordFailure(correlationId, "workflow.status");
             LOG.error("Error fetching workflow status", e);
             resp.sendError(SlingHttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching workflow status");
         }
@@ -80,7 +87,9 @@ public class HeadlessSubmitServlet extends SlingAllMethodsServlet {
     protected void doPost(final SlingHttpServletRequest req,
             final SlingHttpServletResponse resp) throws ServletException, IOException {
         
-        LOG.info("Received headless form submission for Omnichannel flow");
+        String correlationId = (String) req.getAttribute("bmad.correlationId");
+        observabilityService.recordSubmission(correlationId);
+        LOG.info("event=form.submission_received correlationId={}", correlationId);
 
         StringBuilder sb = new StringBuilder();
         String line;
@@ -91,7 +100,7 @@ public class HeadlessSubmitServlet extends SlingAllMethodsServlet {
         }
 
         String submittedData = sb.toString();
-        LOG.info("Submitted Data: {}", submittedData);
+        LOG.debug("event=form.payload_received correlationId={} payloadBytes={}", correlationId, submittedData.length());
 
         // Initiate AEM Workflow (Mocked for Demo)
         ResourceResolver resolver = req.getResourceResolver();
@@ -107,6 +116,7 @@ public class HeadlessSubmitServlet extends SlingAllMethodsServlet {
             }
             LOG.info("Workflow initiated: {}", workflowId);
         } catch (Exception e) {
+            observabilityService.recordFailure(correlationId, "workflow.start");
             LOG.warn("Failed to initiate real workflow, continuing with mock ID", e);
         }
 
@@ -114,6 +124,7 @@ public class HeadlessSubmitServlet extends SlingAllMethodsServlet {
         resp.setCharacterEncoding("UTF-8");
 
         if (submittedData.contains("error")) {
+            observabilityService.recordFailure(correlationId, "form.submit");
             resp.setStatus(SlingHttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getWriter().write("{\"status\": \"error\", \"message\": \"Simulated processing error\"}");
         } else {

@@ -35,6 +35,7 @@ import uk.org.lidalia.slf4jext.Level;
 import uk.org.lidalia.slf4jtest.LoggingEvent;
 import uk.org.lidalia.slf4jtest.TestLogger;
 import uk.org.lidalia.slf4jtest.TestLoggerFactory;
+import com.google.common.base.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -69,8 +70,9 @@ class LoggingFilterTest {
         assertEquals(1, events.size());
         LoggingEvent event = events.get(0);
         assertEquals(Level.DEBUG, event.getLevel());
-        assertEquals(2, event.getArguments().size());
+        assertEquals(3, event.getArguments().size());
         assertEquals("/content/test", event.getArguments().get(0));
         assertEquals("selectors", event.getArguments().get(1));
+        assertEquals(Optional.absent(), event.getArguments().get(2));
     }
 }

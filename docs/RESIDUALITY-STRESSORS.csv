@@ -1,0 +1,6 @@
+"Stressor ID","Domain example","Expected residue","Attractor"
+"HC-001","care-team reviewer unavailable","delegated reviewer and pending-safe state","HITL queue stall"
+"HC-002","payer API changes required field","versioned FDM mapping and validation message","schema mismatch"
+"HC-003","DoR generation unavailable after approval","approved decision and retryable document state","approved but no artifact"
+"FIN-001","signature provider timeout","idempotent agreement and reconciliation","unknown signing state"
+"FIN-002","duplicate mobile submission","same workflow receipt returned","duplicate agreement"
